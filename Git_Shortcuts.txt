@@ -1,0 +1,255 @@
+4.1 Git on the Server
+4.2 The Protocols
+4.3 Generating Your SSH Public Key 
+
+
+
+
+<<<<<<<<<_____________Chapter: 1.1______________>>>>>>>>>>
+
+1. Nearly Every Operation Is Local:
+   Other version control systems say work kartay waqt speed slow ho skti hain kyunkay onhay har request kaliay server say contact hona parta hain. Jab kay iski dosri 
+   trf Git apkay local computer par hi 1 database bna daiti hain. Jab marzi commit karo, or internet connection honay par online upload kardo.
+
+2. Snapshots:
+   It stores data as a full snapshots of full code.
+
+3. Everything in Git is checksummed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file 
+   or directory without Git knowing about it.
+
+4. Atomic commits:
+   Keep commits centric to one feature, one component or one fix. Focused on one thing
+   Give orders to code base.
+
+
+$ git config --list --show-origin
+  git config --list    	# To check configuration settings.
+
+$ git config --global core.editor "pycharm --wait"
+  git config --global --get core.editor
+
+$ git config --global user.name "AhmadRandhawaOfficial"
+  git config --global user.email official.ahmadrandhawa@gmail.com
+
+$ git config user.name
+$ git config user.email
+$ git config --list
+
+$ git help config
+  git add -h
+
+$ git config --global alias.graph "log --all --oneline --graph --decorate"		# Add it as shortcut, git graph = git log --all --oneline --graph --decorate.
+$ git config --global --unset alias.graph						# Remove that shortcut.
+
+$ touch <f_name>		# Create the file.
+$ cat <f_name>			# Displays the data of file.
+$ vim <f_name>			# Edit the data of file, Press Esc, type :wq to save and quit, or :q! to quit without saving.
+
+
+----------------.gitignore----------------
+
+# .gitignore Generotor online tools to generate some .gitignore data
+$ git status --ignored          # Check Ignored Files.
+
+$ .venv/                        # Add a slash (/) at the end to ignore a directory:
+$ random_w.txt                  # Write the file name to ignore it.
+
+$ Half Samples/*.txt            # Ignore Files in a Specific Subdirectory:
+$ **/temp.txt                   # Ignore temp.txt in all folders
+$ *.svg                         # Ignore All Files with a Specific Extension.
+  !die_visual.svg		# Except this file.
+
+$ git ls-files --ignored --exclude-standard -o		# to see the list of ignored files.
+
+
+
+<<<<<<<<<_____________CH # 2______________>>>>>>>>>>
+
+$ cd ..                         # Move one level up
+$ ls, pwd
+$ ls -la                        # to see hidden files
+$ git init                      # Initialize the folder as git to track changing.
+$ git add *.py  or  **/*.py     # to add current directory and subordinates with python extension.
+$ git add .                     # staged all files including hidden. 
+$ git add *			# staged all files except hidden file or those starts with .
+
+$ git rm -r --cached .		# Remove all the files from staging area. 
+$ git commit -a -m 'msg'        # Stage and commit any track file that have been modified.
+$ git reset --hard HEAD~1	# Delete the last commit and discard all the stages.
+
+
+----------------rm & mv-----------------
+
+$ git rm <file name>		# Removing a File from the Staging Area and Working Directory.
+$ git rm --cached <filename> 	# Removing a File from the Staging Area.
+$ git rm log/\*.log 		# Removes all .log files in the log/ directory.
+$ git rm \*.py 			# Removes all .py files tracked by Git, regardless of the directory.
+
+$ git mv old_name new_name	# Renames a File.
+$ git mv file_name directory/  	# Moves a File.
+         OR
+$ mv README.md README
+  git rm README.md
+  git add README
+
+
+<<<<<<<<<_____________2.3: Viewing the Commit History______________>>>>>>>>>>
+
+-----------------log-----------------
+$ git reflog
+$ git log 			# View the commit history of your repository.
+$ git log --oneline		# Displays one commit per line with a short hash and commit message.
+$ git log <filename>		# Displays the commit history related to a specific file.
+$ git log -2 			# Displays only the last 2 commits.
+$ git log -- file1.txt		# Displays commits related to that name.
+$ git log -p			# Show Differences (Patch Output).
+$ git log -p -2
+$ git log --stat		# Lists modified files, insertions, and deletions per commit.
+
+$ git log --author="<au_nam>"									# Displays commits by specific author.
+$ git log --since="YYYY-MM-DD" --until="YYYY-MM-DD"						# Shows commits within a specific date range.
+$ git log --author="Junio C Hamano" --since="2008-10-01" --until="2008-11-01" --no-merges
+
+$ git log --graph						# Displays an ASCII graph of branch/merge history. Used --all or --oneline with it.
+$ git log --grep="<keyword>"					# Search in commit messages
+$ git log --merges						# Shows only the commits that are merge commits.
+$ git log branch1..branch2					# Lists commits in branch2 that are not in branch1.
+
+
+-----------------diff: Used for comparison-----------------
+
+$ git diff			# Show difference b/w the working directory and the staging area.
+$ git diff --staged		# Show difference b/w the staging area and the last commit.
+$ git diff branch1..branch2	# Show difference b/w the branches. Check it before merging
+$ git diff commit1 commit2	# Show difference b/w the commit
+$ git diff --name-only		# Show changed files only. compare it with last commit.
+$ git diff --cached		# Shows the differences between the staged changes and the last commit.
+
+$ git diff <commit> <file>	# Compare a file with commit.
+$ git diff HEAD			# Compare the full working directory with last commit.
+$ git diff --stat  		# Show summary of changes.
+
+
+<<<<<<<<<_____________2.4: Undoing things______________>>>>>>>>>>
+
+$ git commit --amend -m "New_name"		# Rename the last commit.
+$ git restore --staged <filename>		# Same
+$ git reset 					# Delete all the commit history.
+
+$ git reset HEAD <filename>			# Just unstage the file:.
+$ git checkout --<filename>			# Just discard your changes in working directory with the last commit.
+$ git reset <filename>				# Unstage the file and discard changes.
+
+$ git checkout 9ddbs -- file.txt		# Recover the file data from specific commit.
+$ git checkout HEAD -- example.txt		# recover last commit.
+
+
+<<<<<<<<<_____________2.5: Working with remotes______________>>>>>>>>>>
+
+$ git clone <url>			# copy an entire remote repository to your local machine for the first time.
+$ git remote add <shortname> <url>	# Adds a new remote connection to an existing local repository.
+$ git remote 				# origin: The default nickname Git gives to the remote repository you’re working with.
+$ git remote -v				# Tells the exact address of remote repo. 
+$ git remote show origin		# Provides a more detailed overview, including branch tracking status and remote branch information.
+
+$ git fetch <r_name>					# Downloads the changes but doesn't apply them to your branch.
+$ git branch -r						# This will show all the remote branches
+$ git log origin/main					# Show commit hostory related to that branch.
+$ git diff <local-branch>..origin/<remote-branch>	# Show the difference b/w local and remote branch.
+
+$ git checkout main 					# to merge a remote file with mine local. 
+  git merge origin/main
+
+$ git pull origin <b_name>		# Fetches data of specific branch from the remote repository and merge those changes into your local repo.
+$ git remote rename pb paul		# Used to rename the remote. 
+$ git remote remove paul		# Remove the remote.
+
+
+-----------------Stash-----------------
+
+$ git stash -m "msg"			# Temporarily stored the file on a side structure without affecting the file in working directory.
+$ git stash list			# Shows the list of stash.
+$ git stash show 			# Shows the exact stash.
+$ git stash list -p 
+$ git stash branch <b_name>		# move that stashes to specific branch.
+
+$ git stash pop				# Removes the recent stash data from side structure and return it to git head (working directory).
+$ git stash pop --index 1
+$ git stash pop --index stash@{2} -f	# force the stash to apply (Warning: it will permanently removes the uncommit changes)
+$ git stash apply stash@{2}		# Apply the stash without removing it from the stash list (useful for resolving conflicts).
+$ git stash apply 			# Restore the last stash data.
+$ git stash clear			# Clear all stashes
+
+
+<<<<<<<<<_____________Branches and merging______________>>>>>>>>>>
+
+# Branching just creates the copy of your commits. 
+# In merging we just taking changes from one branch & changes from another branch & then merge their changings.
+# Conflict occurs when we changed the same things in both branches.
+
+$ git branch				# Displays the local branches.
+$ git branch -r				# Displays the remote branches
+
+$ git branch <b_name>			# Create a new branch. 
+$ git checkout <b_name>			# Switches to an existing branch.
+$ git checkout -b <b_name>		# Create and switch.
+$ git switch b_branch
+$ git switch -c b_branch
+
+$ git checkout -b serverfix origin/serverfix  	# Create a new branch that tracks the remote serverfix branch.
+$ git branch -u origin/serverfix                # Link your local branch with a remote origin/serverfix branch.  (This means that when you run commands 
+						like git pull or git push, Git will know which remote branch to interact with by default.)
+$ git branch -v					# Shows the branch name, commit hash, commit message for local branches.
+$ git branch -vv				# Provide some additional details like trackcing realtionship or whether local is ahead, behind or up-to-date with remote.
+$ git fetch --all; git branch -vv		# Provide up-to-date details of git branch -vv.
+
+
+-----------------Detached Head-----------------
+
+$ git checkout 61f1cd			# Directly accessed the Detached Head or it is just used to workl
+$ git branch stage 			# Creates a branch stage in it, But the Head is no longer attached to it, CUZ it is detached Head.
+$ git checkout stage			# Run this to access this branch instead of in a detached head. 
+
+
+-----------------Merging-----------------
+
+$ git merge <b_name>			# Assume you're on main, and feature branch is ahead; this moves the main branch pointer forward to the tip of feature
+$ git branch --merged			# list the branches that are merged into current branch.
+$ git branch --no-merged		# List all the branhces that are not merged into current branch
+$ git merge --ff-only <b_name>		# Check if ff merge possible.
+$ git merge <b_name>
+
+
+-----------------Local-Remote Connection-----------------
+$ git remote add origin <repo_url>			# connect our local repo to the remote repo.
+$ git push origin main 					# push local branch on a remote repo.
+$ git push origin main:master				# Move mine main branch to the remote with a name master for remote.
+$ git pull origin main --allow-unrelated-histories	# case i have some extra files on remote repo.
+$ git ls-remote origin  				# Shows the references (branches, tags, etc) and their corresponding commit hashes in the remote repository.
+$ git remote show origin				# Provide detail information about a specific repository.
+
+
+-----------------Renaming the branch-----------------
+
+$ git branch -m main master 				# Used to rename the branch.
+$ git push --set-upstream origin master 		# Not only push local branch on a remote repo. But also set a tracking relationship b/w local and remote branch.
+$ git push origin --delete main 			# delete the old branch name  
+
+
+-----------------Delete the specific branch-----------------
+
+$ git branch -d <b_name>				# Delete the specific branch locally.
+$ git push origin --delete <b_name>			# Delete the specific branch remotely.
+$ git fetch --prune					# Remove all the references related to the deleted branch.
+
+
+-----------------Generating SSH key-----------------
+
+$ ssh-keygen -t ed25519 -C "your_email@example.com" (-f ~/.ssh/id_ed25519)	# Generate SSH key, Best to generate in a default folder.
+
+$ cd ~/.ssh				# Check if already create a key.
+$ ls					# list the key.
+$ eval "$(ssh-agent -s)"		# Starts running the agent in the bacnkground, it is a program that holds your private key in the memory and automatically 
+					  used it when needed.
+$ cat id_ed25519.pub			# To see the public key.
+
